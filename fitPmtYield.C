@@ -10,6 +10,7 @@
 #include <string>
 #include <TFile.h>
 #include <TPaveStats.h>
+#include <TText.h>
 
 void fitPmtYield(std::string inFileName)
 {
@@ -56,7 +57,7 @@ void fitPmtYield(std::string inFileName)
   inFile.close();
 
   // make a graph of them
-  std::string nameRoot = inFileName.substr(0, inFileName.find("."));
+  std::string nameRoot = inFileName.substr(0, inFileName.find(".")); // file name without .txt
   TFile* outFile = new TFile( (nameRoot + ".root").data() , "RECREATE");
   TCanvas* C1 = new TCanvas("C1", "Power law fit", 600, 600);
   TF1* powerLaw = new TF1("powerLaw", "pow(x/[0],[1])", 2000, 3000);
@@ -92,15 +93,21 @@ void fitPmtYield(std::string inFileName)
 
   gainsGraph->Draw("ap");
 
-  TPaveStats* st = static_cast<TPaveStats*>( C1->GetPrimitive("stats") );
-  cout <<  st  << endl;
+  std::string pmtName = nameRoot.substr(nameRoot.find_last_of("/")+1);   // file name without .txt, without the directory name
+  TText *pmtLabel = new TText(.3, .6, pmtName.data());
+  pmtLabel->SetNDC();
+  pmtLabel->SetTextFont(42);
+  pmtLabel->SetTextSize(0.08);
+  pmtLabel->Draw();
 
   // save everything
   C1->SaveAs( (nameRoot + ".pdf").data() );
   C1->SaveAs( (nameRoot + ".png").data() );
+
   outFile->cd();
   gainsGraph->Write();
   gainsGraph->GetFunction("powerLaw")->Write();
+  C1->Write();
 
   outFile->Close();
 }
