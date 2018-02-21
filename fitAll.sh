@@ -3,5 +3,5 @@
 ./comasToDots.sh
 
 for txtFile in gainPerformance/*.txt; do
-  root fitPmtYield.C+'("'"$txtFile"'")'
+  root -l -b -q fitPmtYield.C+'("'"$txtFile"'")'
 done
