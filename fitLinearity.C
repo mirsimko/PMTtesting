@@ -1,0 +1,115 @@
+#include <cmath>
+#include <TF1.h>
+#include <TGraph.h>
+#include <iostream>
+#include <fstream>
+#include <TCanvas.h>
+#include <TStyle.h>
+#include <TAxis.h>
+#include <TPad.h>
+#include <string>
+#include <TFile.h>
+#include <TPaveStats.h>
+#include <TText.h>
+
+void fitLinearity(std::string inFileName)
+{
+  using std::ifstream; using std::cout; using std::cerr; using std::endl;
+
+  // setting fonts etc.
+  gStyle->SetOptFit(111);
+  gStyle->SetLabelFont(42, "x");
+  gStyle->SetLabelFont(42, "y");
+  gStyle->SetTitleFont(42, "x");
+  gStyle->SetTitleFont(42, "y");
+  gStyle->SetLegendFont(42);
+
+  gStyle->SetStatX(0.6);
+
+  const int N = 4;
+  float x[N], gains[N];
+  float voltages[N];
+
+  // voltages values
+  float volt = 2100;
+  for (int i = 0; i < N; ++i)
+  {
+    voltages[i] = volt;
+    volt += 100;
+  }
+
+  // read from a file
+  ifstream inFile(inFileName.data());
+
+  int nValues = N;
+  for (int i = 0; i < N; ++i)
+  {
+    if(!inFile.good())
+    {
+      nValues = i;
+      break;
+    }
+    inFile >> x[i];
+    inFile >> gains[i];
+    // gains[i] = 1e-3 * gains[i];
+    cout << x[i] << " " << gains[i] << endl;
+  }
+  inFile.close();
+
+  // make a graph of them
+  std::string nameRoot = inFileName.substr(0, inFileName.find(".")); // file name without .txt
+  TFile* outFile = new TFile( (nameRoot + ".root").data() , "RECREATE");
+  TCanvas* C1 = new TCanvas("C1", "Linear fit", 600, 600);
+  TF1* linear = new TF1("linear", "[0]+x*[1]", 5, 8.5);
+  TGraph* gainsGraph = new TGraph(nValues, x, gains);
+
+  linear->SetParameter(0,1500);
+  linear->SetParName(0,"constant");
+  linear->SetParameter(1,2);
+  linear->SetParName(1,"Slope");
+  gainsGraph->Fit(linear);
+
+  // drawing
+  gainsGraph->SetTitle("");
+  gainsGraph->SetMarkerStyle(2);
+  gainsGraph->SetMarkerSize(3);
+  gainsGraph->SetMarkerColor(kBlack);
+
+  gainsGraph->GetXaxis()->SetTitle("#font[52]{U}_{diode} (V)");
+  gainsGraph->GetXaxis()->CenterTitle();
+  gainsGraph->GetXaxis()->SetLabelSize(0.035);
+  gainsGraph->GetXaxis()->SetTitleSize(0.055);
+  gainsGraph->GetXaxis()->SetTitleOffset(0.8);
+  gainsGraph->GetYaxis()->SetTitle("gain (AU)");
+  gainsGraph->GetYaxis()->CenterTitle();
+  gainsGraph->GetYaxis()->SetLabelSize(0.035);
+  gainsGraph->GetYaxis()->SetTitleSize(0.055);
+  gainsGraph->GetYaxis()->SetTitleOffset(1.2);
+
+  gPad->SetLeftMargin(.14);
+
+  gainsGraph->GetFunction("linear")->SetLineColor(kRed);
+  gainsGraph->GetFunction("linear")->SetNpx(1e4);
+  //   gainsGraph->GetXaxis()->SetLimits(0.,8.5);
+
+  gainsGraph->Draw("ap");
+  C1->Update();
+
+  std::string pmtName = nameRoot.substr(nameRoot.find_last_of("/")+1);   // file name without .txt, without the directory name
+  TText *pmtLabel = new TText(.2, .6, pmtName.data());
+  pmtLabel->SetNDC();
+  pmtLabel->SetTextFont(42);
+  pmtLabel->SetTextSize(0.08);
+  pmtLabel->Draw();
+
+  // save everything
+  C1->SaveAs( (nameRoot + ".pdf").data() );
+  C1->SaveAs( (nameRoot + ".png").data() );
+
+  outFile->cd();
+  gainsGraph->Write();
+  gainsGraph->GetFunction("linear")->Write();
+  C1->Write();
+
+  outFile->Close();
+}
