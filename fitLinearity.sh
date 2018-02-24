@@ -7,4 +7,4 @@ for txtFile in linearityInputs/"$voltage"/*.txt; do
 done
 
 # merge the output pdfs
-gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=allPmts.pdf linearityInputs/"$voltage"*.pdf
+gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=linearity"$voltage"V.pdf linearityInputs/"$voltage"/*.pdf
