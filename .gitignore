@@ -1,0 +1,8 @@
+*.d
+*.so
+linearityInputs/3000/*.png
+linearityInputs/3000/*.pdf
+linearityInputs/2600/*.pdf
+linearityInputs/2600/*.png
+gainPerformance/*.png
+gainPerformance/*.pdf
