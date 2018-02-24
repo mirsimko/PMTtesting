@@ -9,3 +9,5 @@ linearityInputs/2600/*.root
 gainPerformance/*.png
 gainPerformance/*.pdf
 gainPerformance/*.root
+*.pdf
+*.root
