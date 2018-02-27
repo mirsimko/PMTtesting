@@ -26,22 +26,24 @@ void fitPmtYield(std::string inFileName)
 
   gStyle->SetStatX(0.6);
 
-  const int N = 10;
+  const int N = 11;
   float gains[N];
   float voltages[N];
 
   // voltages values
   float volt = 2100;
-  for (int i = 0; i < N; ++i)
+  for (int i = 0; i < N-1; ++i)
   {
     voltages[i] = volt;
     volt += 100;
   }
+  
+  voltages[N-1]=3400;
 
   // read from a file
   ifstream inFile(inFileName.data());
 
-  int nValues = 10;
+  int nValues = 11;
   for (int i = 0; i < N; ++i)
   {
     if(!inFile.good())
