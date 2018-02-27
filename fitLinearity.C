@@ -26,17 +26,8 @@ void fitLinearity(std::string inFileName)
 
   gStyle->SetStatX(0.6);
 
-  const int N = 4;
+  const int N = 20;
   float x[N], gains[N];
-  float voltages[N];
-
-  // voltages values
-  float volt = 2100;
-  for (int i = 0; i < N; ++i)
-  {
-    voltages[i] = volt;
-    volt += 100;
-  }
 
   // read from a file
   ifstream inFile(inFileName.data());
@@ -51,7 +42,6 @@ void fitLinearity(std::string inFileName)
     }
     inFile >> x[i];
     inFile >> gains[i];
-    // gains[i] = 1e-3 * gains[i];
     cout << x[i] << " " << gains[i] << endl;
   }
   inFile.close();
@@ -63,9 +53,9 @@ void fitLinearity(std::string inFileName)
   TF1* linear = new TF1("linear", "[0]+x*[1]", 5, 8.5);
   TGraph* gainsGraph = new TGraph(nValues, x, gains);
 
-  linear->SetParameter(0,1500);
+  linear->SetParameter(0,0);
   linear->SetParName(0,"constant");
-  linear->SetParameter(1,2);
+  linear->SetParameter(1,1);
   linear->SetParName(1,"Slope");
   gainsGraph->Fit(linear);
 
@@ -75,7 +65,7 @@ void fitLinearity(std::string inFileName)
   gainsGraph->SetMarkerSize(3);
   gainsGraph->SetMarkerColor(kBlack);
 
-  gainsGraph->GetXaxis()->SetTitle("#font[52]{U}_{diode} (V)");
+  gainsGraph->GetXaxis()->SetTitle("ref. PMT gain (AU)");
   gainsGraph->GetXaxis()->CenterTitle();
   gainsGraph->GetXaxis()->SetLabelSize(0.035);
   gainsGraph->GetXaxis()->SetTitleSize(0.055);
