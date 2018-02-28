@@ -1,0 +1,65 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{breakurl}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage[breaklinks, hidelinks]{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+
+\newcommand{\vect}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\ddd}{\ensuremath{\,\mathrm{d}}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\pravYi}{P(Y_i|\alpha, \beta, \epsilon_i)}
+\newcommand{\pravY}{P(\boldsymbol{Y}|\alpha, \beta, \epsilon_i)}
+\newcommand{\nsigma}{\frac{N}{\sigma^2}}
+\newcommand{\arpxsq}{\overline{(X^2)}}
+\newcommand{\sigman}{\frac{\sigma^2}{N}}
+\newcommand{\jmenovatel}{ \arpxsq - \overline{X}^2}
+\usepackage{amsmath}
+%opening
+\title{ZDC voltages}
+\author{Miroslav Šimko, Lukáš Kramárik, Jan Vaněk}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+The gain on photomultipliers follows the power law dependence
+\begin{equation}
+G = \left(\frac{U}{U_0} \right)^X
+\end{equation}
+with the voltage $U$ where $G$ is the measured gain. The coefficients $U_0$ and $X$ have to be extracted from measurement.
+
+
+
+\begin{table}[htb] 
+\caption{Calculated voltages from the position of the single neutron peak and ratios 
+between ZDC towers}
+\label{uncorected}
+\begin{center}
+\begin{tabular}{lccccc}
+ \toprule
+ &$U_\text{current}$[V]&Single n pos.&gain ratio&desired gain ratio&$U_\text{result}$[V]\\
+\midrule
+ East&2471&38.33&0.689&0.6&2661\\
+     &2779&38.33&0.228&0.3&3300\\
+     &2353&38.33&0.083&0.1&2735\\
+ \midrule
+West&2532&43.56&0.665&0.6&2667\\
+    &2643&43.56&0.278&0.3&2905\\
+    &2671&43.56&0.057&0.1&3294\\
+ \bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\end{document}
+
+
+
