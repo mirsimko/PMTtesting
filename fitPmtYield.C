@@ -29,16 +29,17 @@ void fitPmtYield(std::string inFileName)
   const int N = 11;
   float gains[N];
   float voltages[N];
+  const float voltCorrectionFactor = 0.45;
 
   // voltages values
-  float volt = 2100;
+  float volt = 2100 * voltCorrectionFactor;
   for (int i = 0; i < N-1; ++i)
   {
     voltages[i] = volt;
-    volt += 100;
+    volt += 100 * voltCorrectionFactor;
   }
   
-  voltages[N-1]=3400;
+  voltages[N-1]=3400 * voltCorrectionFactor;
 
   // read from a file
   ifstream inFile(inFileName.data());
