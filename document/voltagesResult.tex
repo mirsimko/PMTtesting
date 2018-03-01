@@ -62,7 +62,7 @@ with the high voltage $U$ on the dinodes where $G$ is the measured gain where th
 \caption{\label{gainCurves}Gain curves of ZDC photomultipiers. The measurement is described in more detail in~\cite{table} and~\cite{ZDC_PMT_presentation}.}
 \end{figure}
 
-We have measured the gain using a simple setup with a pulsing LED with controlled light output, the measured PMT, and a control PMT, all of them closed in a dark box. The amplitude of the pulse from the PMT was measured via an oscilloscope. We measured the gain for 10 voltages between 2.1 kV and 3 kV, then we added 1 measurement at 3.4 kV to test whether the PMT starts showing saturation at high voltages\@. The resulting gains follow nicely the power law \eqref{power_law} as can be seen in Figure~\ref{gainCurves}. No saturation of the gain was observed in this measurement, however, we have encountered saturation with higher frequency of the light input. The fitted constants $U_0$ and $X$ are summarized in Table~\ref{gainTable}. The whole measurement is described in more detail in~\cite{table} and~\cite{ZDC_PMT_presentation}.
+We have measured the gain using a simple setup with a pulsing LED with controlled light output, the measured PMT, and a control PMT, all of them closed in a dark box. The amplitude of the pulse from the PMT was measured via an oscilloscope. We measured the gain for 10 voltages between 2.1 kV and 3 kV, then we added 1 measurement at 3.4 kV to test whether the PMT starts showing saturation at high voltages\@. The resulting gains follow nicely the power law \eqref{power_law} as can be seen in Figure~\ref{gainCurves}. No saturation of the gain was observed in this measurement, however, we have encountered saturation with higher frequency of the light input (not shown in this document, but documented~\cite{table})\@. The fitted constants $U_0$ and $X$ are summarized in Table~\ref{gainTable}. The whole measurement is described in more detail in~\cite{table} and~\cite{ZDC_PMT_presentation}.
 
 
 \begin{table}[htb]
@@ -86,9 +86,9 @@ West:&1&1176&4&6.13&0.02\\
 
 Using the gain dependence \eqref{power_law} and the constants from Table \ref{gainTable}, we can obtain the gain at the set voltages in 2016 and 2017 running for the light output of our LED\@. These voltages were calibrated on the single-neutron peak (SNP) in 2016 as can be found in Chapter~4 in~\cite{ZDC_ops_manual}\@. 
 
-The measured gains are in Table~\ref{glassTable} which also shows the ratio $G/G_\text{West3}$ of the gain of the corresponding tower to the tower West1 which had the best performance of the measured PMTs\@. This ratio can tell us something about the light registered by the PMTs. Higher gain ratios can mean 1 or, perhaps, a combination of the following factors:
+The measured gains are in Table~\ref{glassTable} which also shows the ratio $G/G_\text{West3}$ of the gain of the corresponding tower to the tower West1 which had the best performance of the measured PMTs\@. This ratio can tell us something about the light registered by the PMTs. Higher gain ratios can mean one or, perhaps, a combination of the following factors:
 \begin{enumerate}
-\item The fibers leading to the PMTs are more radiation-damaged or have a worse surface and, therefore, transmit less light.
+\item The fibers leading to the corresponding PMT are more radiation-damaged or have a worse surface and, therefore, transmit less light.
 \item The gain of the corresponding PMT has dropped more than others in 2016 and 2017.
 \item The calibration set the PMT's voltage too high as, e.g.\ for the 3rd towers, the SNP method is not very accurate. 
 \end{enumerate}
@@ -113,7 +113,7 @@ West:&1&2558&117&1\\
 \end{center}
 \end{table}
 
-If the scenario 1 is true or it is the dominant factor in the gain difference, we can conclude that the fibers on the West side are considerably worse than in the East and the tower with the worse light output is the West3\@ which also has one of the worst PMTs. This opens possibilities for swapping of the PMTs.
+If the scenario 1 is true or it is the dominant factor in the gain difference, we can conclude that the fibers on the West side are considerably worse than in the East and the tower with the worst light output is the West3\@ which also has one of the worst PMTs. This opens possibilities for swapping of the PMTs.
 
 \section{Voltage estimates for 2018}
 The gain from the ZDC photomultipiers is dropping each year. This effect occurs in between high-energy running, therefore this is not expected to be luminosity-dependent. However, luminosity dependence is also considered here.
@@ -126,7 +126,7 @@ we easily get the result for voltages from the dependence \eqref{power_law}
 \begin{equation}
 U_{2018}^\text{linear} = (2 U_{2016}^X - U_{2014}^X)^{1/X}\,.
 \end{equation}
-Since the STAR ZDC has been exposed to an unprecedented luminosity from Au+Au running in 2016 and p+p running at $\sqrt{s} = 500$~GeV, we have also considered a scenario where the gain decrease in 2016--2017 is 4$\times$ higher than in 2014--2015
+Since the STAR ZDC has been exposed to an unprecedented luminosity from Au+Au running in 2016 and p+p running at $\sqrt{s} = 500$~GeV in 2017, we have also considered a scenario where the gain decrease in 2016--2017 is 4$\times$ higher than in 2014--2015
 \begin{equation}
 G_{2018} = G_{2016} + 4(G_{2016} - G_{2014})\,,
 \end{equation}
@@ -154,7 +154,7 @@ West:&1&2532&2558&2583&2650\\
 \end{center}
 \end{table}
 
-The resulting voltages are written in Table~\ref{voltsTable}. The voltages in boldface exceed the maximum allowed voltage of the ZDC power supply and the corresponding PMTs will have to be replaced or swapped with other channels.
+The resulting voltages are written in Table~\ref{voltsTable}. The ones in boldface exceed the maximum allowed voltage of the ZDC power supply and the corresponding PMTs will have to be replaced or swapped with other channels.
 
 
 
