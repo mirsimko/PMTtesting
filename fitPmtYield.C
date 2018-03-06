@@ -26,44 +26,51 @@ void fitPmtYield(std::string inFileName)
 
   gStyle->SetStatX(0.6);
 
-  const int N = 11;
+  const int N = 13;
   float gains[N];
   float voltages[N];
-  const float voltCorrectionFactor = 0.45;
+  // const float voltCorrectionFactor = 0.45;
 
+  
   // voltages values
-  float volt = 2100 * voltCorrectionFactor;
-  for (int i = 0; i < N-1; ++i)
+  voltages[0] = 1529; // whoa! What a number! 1529 V to match the old gain measurement with a faulty high voltage power supply
+
+  float volt = 2100;
+  for (int i = 1; i < N-1; ++i) // by 100 V from 2.1 kV to 3.1 kV
   {
     voltages[i] = volt;
-    volt += 100 * voltCorrectionFactor;
+    volt += 100;
   }
   
-  voltages[N-1]=3400 * voltCorrectionFactor;
+  voltages[N-1]=3400; // to test saturation with high voltage
+  for(int i = 0; i < N; ++i)
+    cout << voltages[i] << endl;
 
   // read from a file
   ifstream inFile(inFileName.data());
 
-  int nValues = 11;
+  int nValues = 13;
   for (int i = 0; i < N; ++i)
   {
     if(!inFile.good())
     {
-      nValues = i-1;
+      nValues = i+1;
       break;
     }
 
     inFile >> gains[i];
     // gains[i] = 1e-3 * gains[i];
+    cout << i << endl;
     cout << gains[i] << endl;
   }
   inFile.close();
+  cout << nValues << endl;
 
   // make a graph of them
   std::string nameRoot = inFileName.substr(0, inFileName.find(".")); // file name without .txt
   TFile* outFile = new TFile( (nameRoot + ".root").data() , "RECREATE");
   TCanvas* C1 = new TCanvas("C1", "Power law fit", 600, 600);
-  TF1* powerLaw = new TF1("powerLaw", "pow(x/[0],[1])", 2000, 3000);
+  TF1* powerLaw = new TF1("powerLaw", "pow(x/[0],[1])", 1500, 3500);
   TGraph* gainsGraph = new TGraph(nValues, voltages, gains);
 
   powerLaw->SetParameter(0,1000);

@@ -7,4 +7,4 @@ for txtFile in gainPerformance/*.txt; do
 done
 
 # merge the output pdfs
-gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=allPmts.pdf gainPerformance/*.pdf
+gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=gainFit.pdf gainPerformance/*.pdf
