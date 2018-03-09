@@ -1,6 +1,6 @@
 #include <cmath>
 #include <TF1.h>
-#include <TGraph.h>
+#include <TGraphErrors.h>
 #include <iostream>
 #include <fstream>
 #include <TCanvas.h>
@@ -27,7 +27,9 @@ void fitPmtYield(std::string inFileName)
   gStyle->SetStatX(0.6);
 
   const int N = 13;
+  const float relativeError = 0.05;
   float gains[N];
+  float gainErrors[N];
   float voltages[N];
   // const float voltCorrectionFactor = 0.45;
 
@@ -57,6 +59,7 @@ void fitPmtYield(std::string inFileName)
     }
 
     inFile >> gains[i];
+    gainErrors[i] = gains[i] * relativeError;
     // gains[i] = 1e-3 * gains[i];
     cout << gains[i] << endl;
   }
@@ -67,7 +70,7 @@ void fitPmtYield(std::string inFileName)
   TFile* outFile = new TFile( (nameRoot + ".root").data() , "RECREATE");
   TCanvas* C1 = new TCanvas("C1", "Power law fit", 600, 600);
   TF1* powerLaw = new TF1("powerLaw", "pow(x/[0],[1])", 1500, 3500);
-  TGraph* gainsGraph = new TGraph(nValues, voltages, gains);
+  TGraphErrors* gainsGraph = new TGraphErrors(nValues, voltages, gains, nullptr, gainErrors);
 
   powerLaw->SetParameter(0,1000);
   powerLaw->SetParName(0,"U_{0}");
@@ -77,8 +80,8 @@ void fitPmtYield(std::string inFileName)
 
   // drawing
   gainsGraph->SetTitle("");
-  gainsGraph->SetMarkerStyle(2);
-  gainsGraph->SetMarkerSize(3);
+  gainsGraph->SetMarkerStyle(20);
+  // gainsGraph->SetMarkerSize(3);
   gainsGraph->SetMarkerColor(kBlack);
 
   gainsGraph->GetXaxis()->SetTitle("#font[52]{U} (V)");
