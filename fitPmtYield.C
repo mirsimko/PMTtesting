@@ -43,8 +43,6 @@ void fitPmtYield(std::string inFileName)
   }
   
   voltages[N-1]=3400; // to test saturation with high voltage
-  for(int i = 0; i < N; ++i)
-    cout << voltages[i] << endl;
 
   // read from a file
   ifstream inFile(inFileName.data());
@@ -60,11 +58,9 @@ void fitPmtYield(std::string inFileName)
 
     inFile >> gains[i];
     // gains[i] = 1e-3 * gains[i];
-    cout << i << endl;
     cout << gains[i] << endl;
   }
   inFile.close();
-  cout << nValues << endl;
 
   // make a graph of them
   std::string nameRoot = inFileName.substr(0, inFileName.find(".")); // file name without .txt
