@@ -1,6 +1,6 @@
 #include <cmath>
 #include <TF1.h>
-#include <TGraph.h>
+#include <TGraphErrors.h>
 #include <iostream>
 #include <fstream>
 #include <TCanvas.h>
@@ -11,6 +11,8 @@
 #include <TFile.h>
 #include <TPaveStats.h>
 #include <TText.h>
+#include <array>
+#include <algorithm> // std::sort
 
 void fitLinearity(std::string inFileName)
 {
@@ -27,7 +29,9 @@ void fitLinearity(std::string inFileName)
   gStyle->SetStatX(0.6);
 
   const int N = 20;
-  float x[N], gains[N];
+  std::array<float, N> x, gains;
+  std::array<float, N> ex =  {25, 42, 44, 38, 72, 65, 115, 119};
+  std::array<float, N> eGain;
 
   // read from a file
   ifstream inFile(inFileName.data());
@@ -46,14 +50,23 @@ void fitLinearity(std::string inFileName)
   }
   inFile.close();
 
+  // set errors
+  std::sort (x.begin(), x.begin() + nValues); // sort the values read from the file
+  std::sort (gains.begin(), gains.begin() + nValues);
+  for (int i = 0; i < nValues; ++i)
+  {
+    eGain[i] = gains[i] * ex[i] / x[i]; // same relative error
+  }
+
+
   // make a graph of them
   std::string nameRoot = inFileName.substr(0, inFileName.find(".")); // file name without .txt
   TFile* outFile = new TFile( (nameRoot + ".root").data() , "RECREATE");
   TCanvas* C1 = new TCanvas("C1", "Linear fit", 600, 600);
   TF1* linear = new TF1("linear", "[0]+x*[1]", 5, 8.5);
-  TGraph* gainsGraph = new TGraph(nValues, x, gains);
+  TGraphErrors* gainsGraph = new TGraphErrors(nValues, x.data(), gains.data(), ex.data(), eGain.data());
 
-  linear->SetParameter(0,0);
+  linear->FixParameter(0,0);
   linear->SetParName(0,"constant");
   linear->SetParameter(1,1);
   linear->SetParName(1,"Slope");
@@ -61,8 +74,8 @@ void fitLinearity(std::string inFileName)
 
   // drawing
   gainsGraph->SetTitle("");
-  gainsGraph->SetMarkerStyle(2);
-  gainsGraph->SetMarkerSize(3);
+  gainsGraph->SetMarkerStyle(20);
+  // gainsGraph->SetMarkerSize(3);
   gainsGraph->SetMarkerColor(kBlack);
 
   gainsGraph->GetXaxis()->SetTitle("ref. PMT gain (AU)");
