@@ -30,12 +30,13 @@ void fitLinearity(std::string inFileName)
 
   const int N = 20;
   std::array<float, N> x, gains;
-  std::array<float, N> ex =  {25, 42, 44, 38, 72, 65, 115, 119};
+  std::array<float, N> ex =  {25,42,45,40,72,65,115,119};
   std::array<float, N> eGain;
 
   // read from a file
   ifstream inFile(inFileName.data());
 
+  cout << "Reading " << inFileName << endl;
   int nValues = N;
   for (int i = 0; i < N; ++i)
   {
@@ -68,7 +69,7 @@ void fitLinearity(std::string inFileName)
 
   linear->FixParameter(0,0);
   linear->SetParName(0,"constant");
-  linear->SetParameter(1,1);
+  linear->SetParameter(1,.3);
   linear->SetParName(1,"Slope");
   gainsGraph->Fit(linear);
 
